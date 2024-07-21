@@ -1,0 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String         @id @default(uuid())
+  name           String
+  email          String         @unique
+  password       String
+  phone_number   String?
+  profile_photo  String?
+  created_at     DateTime       @default(now())
+  updated_at     DateTime       @updatedAt
+  role           Role           @default(User)
+  donations      Donation[]
+  requests       Request[]
+  notifications  Notification[]
+}
+
+model Donation {
+  id          String    @id @default(uuid())
+  user_id     String
+  user        User      @relation(fields: [user_id], references: [id])
+  title       String
+  notes       String?
+  location    String
+  quantity    Int
+  expiry_date DateTime
+  status      DonationStatus
+  image       String?
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  requests    Request[]
+  notifications Notification[]
+}
+
+model Request {
+  id           String        @id @default(uuid())
+  user_id      String
+  user         User          @relation(fields: [user_id], references: [id])
+  donation_id  String
+  donation     Donation      @relation(fields: [donation_id], references: [id])
+  status       RequestStatus
+  created_at   DateTime      @default(now())
+  updated_at   DateTime      @updatedAt
+  notifications Notification[]
+}
+
+model Notification {
+  id           String    @id @default(uuid())
+  user_id      String
+  user         User      @relation(fields: [user_id], references: [id])
+  request_id   String?
+  request      Request?  @relation(fields: [request_id], references: [id])
+  donation_id  String?
+  donation     Donation? @relation(fields: [donation_id], references: [id])
+  type         NotificationType
+  message      String
+  is_read      Boolean   @default(false)
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+}
+
+enum Role {
+  User
+  Admin
+}
+
+enum DonationStatus {
+  Available
+  Requested
+  Completed
+}
+
+enum RequestStatus {
+  Pending
+  Accepted
+  Rejected
+}
+
+enum NotificationType {
+  Email
+  System
+}
