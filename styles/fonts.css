@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+@font-face {
+    font-family: 'UberMove';
+    src: url('public/fonts/UberMoveTextRegular.otf') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'UberMove';
+    src: url('public/fonts/UberMoveTextBold.otf') format('opentype');
+    font-weight: bold;@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+    @font-face {
+        font-family: 'UberMove';
+        src: url('public/fonts/UberMoveTextBold.otf') format('opentype');
+        font-weight: 400;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: 'UberMove';
+        src: url('public/fonts/UberMoveTextLight.otf') format('opentype');
+        font-weight: 300;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: 'UberMove';
+        src: url('public/fonts/UberMoveTextMedium.otf') format('opentype');
+        font-weight: 500;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: 'UberMove';
+        src: url('public/fonts/UberMoveTextBold.otf') format('opentype');
+        font-weight: 700;
+        font-style: normal;
+    }
+
+    .uberMoveFont {
+        font-family: 'UberMove', sans-serif;
+    }
+    font-style: normal;
+}
+
+.uberMoveFont {
+    font-family: 'UberMove', sans-serif;
+}
+
+.poppinsMedium32 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+}
