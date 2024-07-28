@@ -4,6 +4,7 @@ import DonationCard from "@/components/donation-card";
 import Search from "@/components/donations/search";
 import { CreateDonations } from "@/components/donations/buttons";
 import Filter from "@/components/donations/filter";
+import Pagination from "@/components/pagination";
 import PaginationNav from "@/components/donations/pagination-nav";
 
 const ITEMS_PER_PAGE = 6;
@@ -17,8 +18,16 @@ interface Donation {
     notes: string;
 }
 
-async function DonationsList({ page }: { page: number }) {
-    const { donations, total } = await fetchDonations(page, ITEMS_PER_PAGE);
+async function DonationsList({
+                                 page,
+                                 query,
+                                 type
+                             }: {
+    page: number;
+    query?: string;
+    type?: string
+}) {
+    const { donations, total } = await fetchDonations(page, ITEMS_PER_PAGE, query, type);
     const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
 
     return (
@@ -41,8 +50,14 @@ async function DonationsList({ page }: { page: number }) {
     );
 }
 
-export default function DonationsPage({ searchParams }: { searchParams: { page?: string } }) {
+export default function DonationsPage({
+                                          searchParams
+                                      }: {
+    searchParams: { page?: string; query?: string; type?: string }
+}) {
     const page = Number(searchParams.page) || 1;
+    const query = searchParams.query;
+    const type = searchParams.type;
 
     return (
         <main className="bg-white px-4 sm:px-6 lg:px-8">
@@ -52,7 +67,7 @@ export default function DonationsPage({ searchParams }: { searchParams: { page?:
                 <CreateDonations />
             </div>
             <Suspense fallback={<div>Loading...</div>}>
-                <DonationsList page={page} />
+                <DonationsList page={page} query={query} type={type} />
             </Suspense>
         </main>
     );
