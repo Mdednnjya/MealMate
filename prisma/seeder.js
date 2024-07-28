@@ -35,6 +35,7 @@ async function main() {
                 expiry_date: new Date('2024-07-30'),
                 status: DonationStatus.AVAILABLE,
                 type: DonationType.FOOD,
+                image: 'public/images/donations/burger.jpg',
             },
             {
                 user_id: user2.id,
@@ -45,6 +46,7 @@ async function main() {
                 expiry_date: new Date('2024-07-25'),
                 status: DonationStatus.AVAILABLE,
                 type: DonationType.FOOD,
+                image: 'public/images/donations/veggies.jpg',
             },
             {
                 user_id: user2.id,
@@ -55,6 +57,7 @@ async function main() {
                 expiry_date: new Date('2024-07-29'),
                 status: DonationStatus.AVAILABLE,
                 type: DonationType.FOOD,
+                image: 'public/images/donations/sandwich.jpg',
             },
             {
                 user_id: user2.id,
@@ -65,6 +68,7 @@ async function main() {
                 expiry_date: new Date('2024-07-25'),
                 status: DonationStatus.AVAILABLE,
                 type: DonationType.FOOD,
+                image: 'public/images/donations/beef-taco.jpeg',
             },
             {
                 user_id: user2.id,
@@ -75,6 +79,7 @@ async function main() {
                 expiry_date: new Date('2024-07-25'),
                 status: DonationStatus.AVAILABLE,
                 type: DonationType.DRINK,
+                image: 'public/images/donations/coca-cola.jpeg',
             },
             {
                 user_id: user2.id,
@@ -85,6 +90,7 @@ async function main() {
                 expiry_date: new Date('2024-07-23'),
                 status: DonationStatus.AVAILABLE,
                 type: DonationType.FOOD,
+                image: 'public/images/donations/ayam-betutu.jpg',
             },
             {
                 user_id: user1.id,
@@ -95,6 +101,7 @@ async function main() {
                 expiry_date: new Date('2024-07-28'),
                 status: DonationStatus.AVAILABLE,
                 type: DonationType.FOOD,
+                image: 'public/images/donations/excess-bread.jpeg',
             },
         ];
 
