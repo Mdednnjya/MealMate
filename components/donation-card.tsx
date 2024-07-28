@@ -12,7 +12,7 @@ export default function DonationCard({ image, title, location, date, notes }: Do
     return (
         <div className="bg-white rounded-xl shadow-md w-full sm:w-64 md:w-80">
             <div className="relative w-[308px] h-[272px]">
-                <Image src={image} alt={title} layout="fill" objectFit="cover" className="w-full h-full"/>
+                <Image src={image} alt={title} layout="fill" objectFit="cover" className="w-full h-full rounded-t-xl"/>
             </div>
             <div className="p-7">
                 <h3 className="font-bold text-xl mb-2">{title}</h3>

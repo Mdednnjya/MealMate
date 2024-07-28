@@ -1,8 +1,6 @@
-import Header from "@/components/header";
 import Hero from "@/components/hero";
 import HowItWorks from "@/components/how-its-work";
 import DonationCarousel from "@/components/donation-carousel";
-import Footer from "@/components/footer";
 
 export default function Home() {
     return (

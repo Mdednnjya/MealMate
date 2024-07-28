@@ -1,101 +1,59 @@
-'use client';
-
-import { useState} from "react";
-import supabase from "@/utils/supabase";
+import { Suspense } from 'react';
 import { fetchDonations } from "@/utils/api/get-donations";
 import DonationCard from "@/components/donation-card";
 import Search from "@/components/donations/search";
-import { CreateDonations} from "@/components/donations/buttons";
+import { CreateDonations } from "@/components/donations/buttons";
 import Filter from "@/components/donations/filter";
-import Pagination from "@/components/pagination";
+import PaginationNav from "@/components/donations/pagination-nav";
 
-export default function DonationsPage() {
-    const donations = [
-        {
-            image: "/images/donations/burger.jpg",
-            title: "Burger Bangor",
-            location: "Austin",
-            date: "July 25, 2024",
-            notes: "Variety of turkey and ham sandwiches"
-        },
-        {
-            image: "/images/donations/veggies.jpg",
-            title: "Farm-Fresh Veggie",
-            location: "Austin",
-            date: "July 25, 2024",
-            notes: "Assorted fresh vegetables from local farm"
-        },
-        {
-            image: "/images/donations/sandwich.jpg",
-            title: "Deli Sandwich Surplus",
-            location: "Riverside District",
-            date: "July 29, 2024",
-            notes: "Variety of turkey and ham sandwiches"
-        },
-        {
-            image: "/images/donations/beef-taco.jpeg",
-            title: "Beef Taco",
-            location: "Austin",
-            date: "July 25, 2024",
-            notes: "Variety of turkey and ham sandwiches"
-        },
-        {
-            image: "/images/donations/coca-cola.jpeg",
-            title: "Coca Cola",
-            location: "Austin",
-            date: "July 25, 2024",
-            notes: "Coca Cola 600ml"
-        },
-        {
-            image: "/images/donations/excess-bread.jpeg",
-            title: "Deli Sandwich Surplus",
-            location: "Riverside District",
-            date: "July 29, 2024",
-            notes: "fresh bread"
-        },
-        {
-            image: "/images/donations/ayam-betutu.jpg",
-            title: "Deli Sandwich Surplus",
-            location: "Riverside District",
-            date: "July 29, 2024",
-            notes: "2 potong sayap + sayur"
-        }
-    ];
+const ITEMS_PER_PAGE = 6;
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 6;
-    const totalPages = Math.ceil(donations.length / itemsPerPage);
+interface Donation {
+    id: string;
+    image: string;
+    title: string;
+    location: string;
+    expiry_date: string;
+    notes: string;
+}
 
-    const handlePageChange = (page: number) => {
-        setCurrentPage(page);
-    };
+async function DonationsList({ page }: { page: number }) {
+    const { donations, total } = await fetchDonations(page, ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
 
-    const currentDonations = donations.slice(
-        (currentPage - 1) * itemsPerPage,
-        currentPage * itemsPerPage
+    return (
+        <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-center">
+                {donations.map((donation: Donation) => (
+                    <div key={donation.id} className="flex-shrink-0 mb-6">
+                        <DonationCard
+                            image={donation.image || "/images/donations/default.jpg"}
+                            title={donation.title}
+                            location={donation.location}
+                            date={new Date(donation.expiry_date).toLocaleDateString()}
+                            notes={donation.notes || ""}
+                        />
+                    </div>
+                ))}
+            </div>
+            <PaginationNav currentPage={page} totalPages={totalPages} />
+        </>
     );
+}
 
-    fetchDonations();
+export default function DonationsPage({ searchParams }: { searchParams: { page?: string } }) {
+    const page = Number(searchParams.page) || 1;
 
     return (
         <main className="bg-white px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center mb-4">
-                <Search placeholder="Search Donations..."/>
-                <Filter/>
-                <CreateDonations/>
+                <Search placeholder="Search Donations..." />
+                <Filter />
+                <CreateDonations />
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-center">
-                {currentDonations.map((donation, index) => (
-                    <div key={index} className="flex-shrink-0 mb-6">
-                        <DonationCard {...donation} />
-                    </div>
-                ))}
-            </div>
-            <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-            />
+            <Suspense fallback={<div>Loading...</div>}>
+                <DonationsList page={page} />
+            </Suspense>
         </main>
     );
 }

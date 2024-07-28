@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-        <body className={`bg-white ${inter.className}`}>
+        <body className={`bg-white ${inter.className} justify-center`}>
             <Header/>
                 <main>{children}</main>
             <Footer/>
