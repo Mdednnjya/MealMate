@@ -1,6 +1,8 @@
 import Image from 'next/image';
+import Link from 'next/link'
 
 interface DonationCardProps {
+    id: string;
     image: string;
     title: string;
     location: string;
@@ -8,7 +10,7 @@ interface DonationCardProps {
     notes: string;
 }
 
-export default function DonationCard({ image, title, location, date, notes }: DonationCardProps) {
+export default function DonationCard({ id, image, title, location, date, notes }: DonationCardProps) {
     return (
         <div className="bg-white rounded-xl shadow-md w-full sm:w-64 md:w-80">
             <div className="relative w-[308px] h-[272px]">
@@ -36,7 +38,7 @@ export default function DonationCard({ image, title, location, date, notes }: Do
                 </div>
                 <p className="mb-4">Notes: {notes}</p>
                 <div className="text-center text-blue-600 hover:underline cursor-pointer">
-                    View details &gt;
+                    <Link href={`/donations/${id}`}>View details &gt;</Link>
                 </div>
             </div>
         </div>

@@ -4,7 +4,6 @@ import DonationCard from "@/components/donation-card";
 import Search from "@/components/donations/search";
 import { CreateDonations } from "@/components/donations/buttons";
 import Filter from "@/components/donations/filter";
-import Pagination from "@/components/pagination";
 import PaginationNav from "@/components/donations/pagination-nav";
 
 const ITEMS_PER_PAGE = 6;
@@ -36,6 +35,7 @@ async function DonationsList({
                 {donations.map((donation: Donation) => (
                     <div key={donation.id} className="flex-shrink-0 mb-6">
                         <DonationCard
+                            id={donation.id}
                             image={donation.image || "/images/donations/default.jpg"}
                             title={donation.title}
                             location={donation.location}
