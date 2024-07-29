@@ -9,9 +9,13 @@ export default function Filter() {
     const searchParams = useSearchParams();
     const [isOpen, setIsOpen] = useState(false);
 
-    const handleFilterChange = (type: string) => {
+    const handleFilterChange = (type: string | null) => {
         const params = new URLSearchParams(searchParams);
-        params.set('type', type);
+        if (type) {
+            params.set('type', type);
+        } else {
+            params.delete('type');
+        }
         params.set('page', '1');
         router.push(`/donations?${params.toString()}`);
         setIsOpen(false);
@@ -27,8 +31,15 @@ export default function Filter() {
                 <FunnelIcon className="h-5 md:ml-3 text-black" />
             </button>
             {isOpen && (
-                <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
                     <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                        <button
+                            onClick={() => handleFilterChange(null)}
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left"
+                            role="menuitem"
+                        >
+                            Show All
+                        </button>
                         {['FOOD', 'DRINK', 'MEAL_PACKAGE'].map((type) => (
                             <button
                                 key={type}
