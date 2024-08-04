@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 async function main() {
     try {
-        const user1 = await prisma.user.create({
+        const user1 = await prisma.profiles.create({
             data: {
                 name: 'John Doe',
                 email: 'john@example.com',
@@ -14,7 +14,7 @@ async function main() {
         });
         console.log('User1 created:', user1);
 
-        const user2 = await prisma.user.create({
+        const user2 = await prisma.profiles.create({
             data: {
                 name: 'Jane Smith',
                 email: 'jane@example.com',
@@ -106,14 +106,14 @@ async function main() {
         ];
 
         for (const donationData of donations) {
-            const donation = await prisma.donation.create({ data: donationData });
+            const donation = await prisma.donations.create({ data: donationData });
             console.log('Donation created:', donation);
         }
 
-        const excessBreadDonation = await prisma.donation.findFirst({ where: { title: 'Excess Bread' } });
+        const excessBreadDonation = await prisma.donations.findFirst({ where: { title: 'Excess Bread' } });
 
         if (excessBreadDonation) {
-            const request = await prisma.request.create({
+            const request = await prisma.requests.create({
                 data: {
                     user_id: user2.id,
                     donation_id: excessBreadDonation.id,

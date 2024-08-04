@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import supabase from "@/utils/supabase";
+import axios from 'axios';
 
 export default function SignUpForm() {
     const [fullName, setFullName] = useState('');
@@ -11,7 +12,6 @@ export default function SignUpForm() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const router = useRouter();
-    const supabase = createClientComponentClient();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -24,10 +24,14 @@ export default function SignUpForm() {
                 options: {
                     data: {
                         full_name: fullName,
+                        email: email,
                         phone_number: phone,
+                        password: password,
+
                     },
                 },
             });
+
             if (error) {
                 setError(error.message);
                 console.error('Error signing up:', error);
