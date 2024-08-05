@@ -7,64 +7,67 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id             String    @id @default(uuid())
-  name           String    @map("name")
-  email          String    @unique
-  password       String
-  phone_number   String
-  profile_photo  String?
-  created_at     DateTime  @default(now())
-  updated_at     DateTime  @updatedAt
-  role           Role      @default(USER)
-  donations      Donation[]
-  requests       Request[]
-  notifications  Notification[]
+model donations {
+  id            String          @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id       String?         @db.Uuid
+  title         String
+  notes         String?
+  location      String
+  quantity      Int
+  expiry_date   DateTime        @db.Timestamptz(6)
+  status        DonationStatus  @default(AVAILABLE)
+  image         String?
+  type          DonationType
+  created_at    DateTime?       @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime?       @default(now()) @db.Timestamptz(6)
+  profiles      profiles?       @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  notifications notifications[]
+  requests      requests[]
 }
 
-model Donation {
-  id           String    @id @default(uuid())
-  user_id      String
-  title        String
-  notes        String?
-  location     String
-  quantity     Int
-  expiry_date  DateTime
-  status       DonationStatus @default(AVAILABLE)
-  image        String?
-  type         DonationType
-  created_at   DateTime  @default(now())
-  updated_at   DateTime  @updatedAt
-  user         User      @relation(fields: [user_id], references: [id])
-  requests     Request[]
-  notifications Notification[]
+model notifications {
+  id          String           @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id     String?          @db.Uuid
+  request_id  String?          @db.Uuid
+  donation_id String?          @db.Uuid
+  type        NotificationType
+  message     String
+  is_read     Boolean          @default(false)
+  created_at  DateTime?        @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime?        @default(now()) @db.Timestamptz(6)
+  donations   donations?       @relation(fields: [donation_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  requests    requests?        @relation(fields: [request_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  profiles    profiles?        @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-model Request {
-  id           String    @id @default(uuid())
-  user_id      String
-  donation_id  String
-  status       RequestStatus @default(PENDING)
-  created_at   DateTime  @default(now())
-  updated_at   DateTime  @updatedAt
-  user         User      @relation(fields: [user_id], references: [id])
-  donation     Donation  @relation(fields: [donation_id], references: [id])
-  notifications Notification[]
+model profiles {
+  id            String          @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name          String
+  email         String          @unique
+  password      String
+  phone_number  String
+  profile_photo String?
+  role          Role            @default(USER)
+  country       String?
+  state         String?
+  city          String?
+  created_at    DateTime?       @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime?       @default(now()) @db.Timestamptz(6)
+  donations     donations[]
+  notifications notifications[]
+  requests      requests[]
 }
 
-model Notification {
-  id           String    @id @default(uuid())
-  user_id      String
-  request_id   String?
-  donation_id  String?
-  type         NotificationType
-  message      String
-  is_read      Boolean   @default(false)
-  created_at   DateTime  @default(now())
-  updated_at   DateTime  @updatedAt
-  user         User      @relation(fields: [user_id], references: [id])
-  request      Request?  @relation(fields: [request_id], references: [id])
-  donation     Donation? @relation(fields: [donation_id], references: [id])
+model requests {
+  id            String          @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id       String?         @db.Uuid
+  donation_id   String?         @db.Uuid
+  status        RequestStatus   @default(PENDING)
+  created_at    DateTime?       @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime?       @default(now()) @db.Timestamptz(6)
+  notifications notifications[]
+  donations     donations?      @relation(fields: [donation_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  profiles      profiles?       @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 enum Role {
