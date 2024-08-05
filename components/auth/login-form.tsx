@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { FcGoogle } from 'react-icons/fc';
@@ -12,6 +12,16 @@ export default function LoginForm() {
     const router = useRouter();
     const supabase = createClientComponentClient();
 
+    useEffect(() => {
+        const checkUser = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                router.push('/');
+            }
+        };
+        checkUser();
+    }, [router, supabase]);
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
@@ -22,27 +32,12 @@ export default function LoginForm() {
                 password,
             });
             if (error) throw error;
-            router.push('/profile');
+            router.push('/');
         } catch (error) {
             setError('Invalid email or password');
             console.error('Error logging in:', error);
         }
     };
-
-    // const handleGoogleSignIn = async () => {
-    //     try {
-    //         const { data, error } = await supabase.auth.signInWithOAuth({
-    //             provider: 'google',
-    //             options: {
-    //                 redirectTo: `${window.location.origin}/auth/callback`,
-    //             },
-    //         });
-    //         if (error) throw error;
-    //     } catch (error) {
-    //         setError('Error signing in with Google');
-    //         console.error('Error signing in with Google:', error);
-    //     }
-    // };
 
     return (
         <form onSubmit={handleSubmit} className="space-y-4">

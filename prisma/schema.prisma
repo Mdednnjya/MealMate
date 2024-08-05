@@ -15,9 +15,9 @@ model donations {
   location      String
   quantity      Int
   expiry_date   DateTime        @db.Timestamptz(6)
-  status        String          @default("AVAILABLE")
+  status        DonationStatus  @default(AVAILABLE)
   image         String?
-  type          String
+  type          DonationType
   created_at    DateTime?       @default(now()) @db.Timestamptz(6)
   updated_at    DateTime?       @default(now()) @db.Timestamptz(6)
   profiles      profiles?       @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -26,18 +26,18 @@ model donations {
 }
 
 model notifications {
-  id          String     @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  user_id     String?    @db.Uuid
-  request_id  String?    @db.Uuid
-  donation_id String?    @db.Uuid
-  type        String
+  id          String           @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id     String?          @db.Uuid
+  request_id  String?          @db.Uuid
+  donation_id String?          @db.Uuid
+  type        NotificationType
   message     String
-  is_read     Boolean    @default(false)
-  created_at  DateTime?  @default(now()) @db.Timestamptz(6)
-  updated_at  DateTime?  @default(now()) @db.Timestamptz(6)
-  donations   donations? @relation(fields: [donation_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  requests    requests?  @relation(fields: [request_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  profiles    profiles?  @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  is_read     Boolean          @default(false)
+  created_at  DateTime?        @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime?        @default(now()) @db.Timestamptz(6)
+  donations   donations?       @relation(fields: [donation_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  requests    requests?        @relation(fields: [request_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  profiles    profiles?        @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model profiles {
@@ -47,7 +47,10 @@ model profiles {
   password      String
   phone_number  String
   profile_photo String?
-  role          String          @default("USER")
+  role          Role            @default(USER)
+  country       String?
+  state         String?
+  city          String?
   created_at    DateTime?       @default(now()) @db.Timestamptz(6)
   updated_at    DateTime?       @default(now()) @db.Timestamptz(6)
   donations     donations[]
@@ -59,7 +62,7 @@ model requests {
   id            String          @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   user_id       String?         @db.Uuid
   donation_id   String?         @db.Uuid
-  status        String          @default("PENDING")
+  status        RequestStatus   @default(PENDING)
   created_at    DateTime?       @default(now()) @db.Timestamptz(6)
   updated_at    DateTime?       @default(now()) @db.Timestamptz(6)
   notifications notifications[]

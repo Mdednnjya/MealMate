@@ -1,23 +1,17 @@
+// header.tsx
 "use client"
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { User } from '@supabase/supabase-js';export default function Header() {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [user, setUser] = useState<User | null>(null);
-    const router = useRouter();
-    const supabase = createClientComponentClient();
+import { useAuth } from '@/contexts/auth-context';
 
-    useEffect(() => {
-        async function getUser() {
-            const { data: { user } } = await supabase.auth.getUser();
-            setUser(user);
-        }
-        getUser();
-    }, [supabase.auth]);
+export default function Header() {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const router = useRouter();
+    const { user, signOut } = useAuth();
 
     useEffect(() => {
         if (isMenuOpen) {
@@ -54,17 +48,19 @@ import { User } from '@supabase/supabase-js';export default function Header() {
                         </li>
                         <li className="w-full sm:w-auto text-center">
                             {user ? (
-                                <button onClick={handleProfileClick} className="flex items-center">
-                                    <div className="w-8 h-8 rounded-full border-2 border-black overflow-hidden">
-                                        <Image
-                                            src={user.user_metadata.avatar_url || '/images/default-profile.png'}
-                                            alt="Profile"
-                                            width={32}
-                                            height={32}
-                                            className="object-cover w-full h-full"
-                                        />
-                                    </div>
-                                </button>
+                                <div className="flex items-center space-x-4">
+                                    <button onClick={handleProfileClick} className="flex items-center">
+                                        <div className="w-8 h-8 rounded-full border-2 border-black overflow-hidden">
+                                            <Image
+                                                src={user.user_metadata?.avatar_url || '/images/default-profile.png'}
+                                                alt="Profile"
+                                                width={32}
+                                                height={32}
+                                                className="object-cover w-full h-full"
+                                            />
+                                        </div>
+                                    </button>
+                                </div>
                             ) : (
                                 <Link href="/auth/sign-up" className="bg-black text-white px-4 py-2 rounded inline-block" onClick={() => setIsMenuOpen(false)}>
                                     Get Started
