@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { fetchDonations } from "@/utils/api/get-donations";
+import { fetchDonations } from "@/utils/api/donations/get-donations";
 import DonationCard from "@/components/donation-card";
 import Search from "@/components/donations/search";
 import { CreateDonations } from "@/components/donations/buttons";
