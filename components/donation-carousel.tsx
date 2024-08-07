@@ -1,5 +1,6 @@
-import DonationCard from './donation-card';
+import DonationCard from "@/components/donations/donation-card";
 import Link from "next/link";
+import {uberMoveText} from "@/components/fonts";
 
 export default function DonationCarousel() {
     const donations = [
@@ -28,7 +29,7 @@ export default function DonationCarousel() {
 
     return (
         <section className="py-20">
-            <h2 className="text-3xl font-bold text-center mb-10">Recent Contributions</h2>
+            <h2 className={`text-3xl ${uberMoveText.className} font-bold text-center mb-10`}>Recent Contributions</h2>
             <div className="flex overflow-x-auto space-x-6 p-4 justify-center flex-wrap">
                 {donations.map((donation, index) => (
                     <div key={index} className="w-full sm:w-64 md:w-80 flex-shrink-0 mb-6">

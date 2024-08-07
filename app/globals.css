@@ -18,6 +18,15 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+.logo-text {
+  font-size: 28px;
+}
+
+.navbar-text {
+  font-size: 20px;
+}
+
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

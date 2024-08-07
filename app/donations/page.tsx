@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { fetchDonations } from "@/utils/api/donations/get-donations";
-import DonationCard from "@/components/donation-card";
+import DonationCard from "@/components/donations/donation-card";
 import Search from "@/components/donations/search";
 import { CreateDonations } from "@/components/donations/buttons";
 import Filter from "@/components/donations/filter";
@@ -17,11 +17,7 @@ interface Donation {
     notes: string;
 }
 
-async function DonationsList({
-                                 page,
-                                 query,
-                                 type
-                             }: {
+async function DonationsList({page, query, type}: {
     page: number;
     query?: string;
     type?: string
@@ -50,9 +46,7 @@ async function DonationsList({
     );
 }
 
-export default function DonationsPage({
-                                          searchParams
-                                      }: {
+export default function DonationsPage({searchParams}: {
     searchParams: { page?: string; query?: string; type?: string }
 }) {
     const page = Number(searchParams.page) || 1;
@@ -60,14 +54,14 @@ export default function DonationsPage({
     const type = searchParams.type;
 
     return (
-        <main className="bg-white px-4 sm:px-6 lg:px-8">
+        <main className="bg-white px-6 sm:px-12 md:px-20 lg:px-24">
             <div className="flex justify-between items-center mb-4">
-                <Search placeholder="Search Donations..." />
-                <Filter />
-                <CreateDonations />
+                <Search placeholder="Search Donations..."/>
+                <Filter/>
+                <CreateDonations/>
             </div>
             <Suspense fallback={<div>Loading...</div>}>
-                <DonationsList page={page} query={query} type={type} />
+                <DonationsList page={page} query={query} type={type}/>
             </Suspense>
         </main>
     );

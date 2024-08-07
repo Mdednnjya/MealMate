@@ -1,3 +1,4 @@
+import {uberMoveText} from "@/components/fonts";
 export default function HowItWorks() {
     const steps = [
         {
@@ -19,8 +20,8 @@ export default function HowItWorks() {
 
     return (
         <section className="py-12 sm:py-16 lg:py-20">
-            <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-10">How MealMate works</h2>
-            <div className="max-w-4xl mx-auto px-4 shadow-md">
+            <h2 className={`text-2xl sm:text-3xl ${uberMoveText.className} font-bold text-center mb-8 sm:mb-10`}>How MealMate works</h2>
+            <div className="max-w-4xl mx-auto p-10 shadow-md">
                 {steps.map((step, index) => (
                     <div key={index} className="flex flex-col sm:flex-row items-start mb-8 rounded-xl p-6">
                         <div className="mb-4 sm:mb-0 sm:mr-6">
