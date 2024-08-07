@@ -9,7 +9,7 @@ export default function Hero() {
 
     const handleDonateClick = () => {
         if (user) {
-            router.push('/donate');
+            router.push('/donations/create');
         } else {
             router.push('/auth/login');
         }
