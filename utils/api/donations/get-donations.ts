@@ -1,31 +1,34 @@
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+// lib/donations.ts
+import supabase from '@/utils/supabase';
 
-export async function fetchDonations(page: number, itemsPerPage: number, query?: string, type?: string) {
-    const supabase = createClientComponentClient();
+export async function getDonation(id: string) {
+    const { data: donation, error: donationError } = await supabase
+        .from('donations')
+        .select('*')
+        .neq('id', id)
+        .single();
 
-    const start = (page - 1) * itemsPerPage;
-    const end = start + itemsPerPage - 1;
-
-    let supabaseQuery = supabase
-        .from('Donation')
-        .select('*', { count: 'exact' })
-        .range(start, end)
-        .order('created_at', { ascending: false });
-
-    if (query) {
-        supabaseQuery = supabaseQuery.ilike('title', `%${query}%`);
+    if (donationError) {
+        console.error('Error fetching donation:', donationError);
+        return null;
     }
 
-    if (type) {
-        supabaseQuery = supabaseQuery.eq('type', type);
+    if (!donation) {
+        return null;
     }
 
-    const { data, error, count } = await supabaseQuery;
+    const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('name, phone_number')
+        .eq('id', donation.user_id)
+        .single();
 
-    if (error) {
-        console.error('Error fetching donations:', error);
-        return { donations: [], total: 0 };
+    if (profileError) {
+        console.error('Error fetching profile:', profileError);
     }
 
-    return { donations: data || [], total: count || 0 };
+    return {
+        ...donation,
+        profile: profile || null
+    };
 }

@@ -38,7 +38,7 @@ export default function DonationCarousel() {
                 ))}
             </div>
             <div className="flex justify-center mt-4">
-                <Link href="/donations" className="bg-black text-white px-6 py-3 rounded inline-block">
+                <Link href="/donations" className="bg-black text-white px-6 py-3 rounded-lg inline-block">
                     View More
                 </Link>
             </div>

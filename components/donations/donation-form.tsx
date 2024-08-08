@@ -90,18 +90,8 @@ export default function DonationForm() {
                     />
                 </div>
                 <div>
-                    <label htmlFor="notes" className={`block ${uberMoveText.className} text-md font-bold text-black`}>Extra
-                        Notes</label>
-                    <textarea
-                        id="notes"
-                        name="notes"
-                        value={formData.notes}
-                        onChange={handleChange}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                    />
-                </div>
-                <div>
-                    <label htmlFor="location" className={`block ${uberMoveText.className} text-md font-bold text-black`}>Spesific
+                    <label htmlFor="location"
+                           className={`block ${uberMoveText.className} text-md font-bold text-black`}>Spesific
                         Location</label>
                     <input
                         type="text"
@@ -114,7 +104,8 @@ export default function DonationForm() {
                     />
                 </div>
                 <div>
-                    <label htmlFor="quantity" className={`block ${uberMoveText.className} text-md font-bold text-black`}>Quantity</label>
+                    <label htmlFor="quantity"
+                           className={`block ${uberMoveText.className} text-md font-bold text-black`}>Quantity</label>
                     <input
                         type="number"
                         id="quantity"
@@ -126,7 +117,19 @@ export default function DonationForm() {
                     />
                 </div>
                 <div>
-                    <label htmlFor="expiry_date" className={`block ${uberMoveText.className} text-md font-bold text-black`}>Best
+                    <label htmlFor="notes" className={`block ${uberMoveText.className} text-md font-bold text-black`}>Extra
+                        Notes</label>
+                    <textarea
+                        id="notes"
+                        name="notes"
+                        value={formData.notes}
+                        onChange={handleChange}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    />
+                </div>
+                <div>
+                    <label htmlFor="expiry_date"
+                           className={`block ${uberMoveText.className} text-md font-bold text-black`}>Best
                         Before</label>
                     <input
                         type="datetime-local"
@@ -138,7 +141,8 @@ export default function DonationForm() {
                     />
                 </div>
                 <div>
-                    <label htmlFor="type" className={`block ${uberMoveText.className} text-md font-bold text-black`}>Type</label>
+                    <label htmlFor="type"
+                           className={`block ${uberMoveText.className} text-md font-bold text-black`}>Type</label>
                     <select
                         id="type"
                         name="type"
@@ -153,7 +157,8 @@ export default function DonationForm() {
                     </select>
                 </div>
                 <div>
-                    <label htmlFor="image" className={`block ${uberMoveText.className} text-md font-bold text-black`}>Image</label>
+                    <label htmlFor="image"
+                           className={`block ${uberMoveText.className} text-md font-bold text-black`}>Image</label>
                     <input
                         type="file"
                         id="image"

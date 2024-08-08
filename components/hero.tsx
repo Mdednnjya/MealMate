@@ -25,7 +25,7 @@ export default function Hero() {
             </p>
             <button
                 onClick={handleDonateClick}
-                className="bg-black text-white px-6 py-3 rounded-xl inline-block"
+                className="bg-black text-white px-6 py-3 rounded-lg inline-block"
             >
                 {user ? "Donate Food" : "Login & Donate"}
             </button>

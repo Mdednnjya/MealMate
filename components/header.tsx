@@ -74,7 +74,7 @@ export default function Header() {
                                 </div>
                             ) : (
                                 <Link href="/auth/sign-up"
-                                      className="bg-black text-white px-4 py-2  rounded inline-block"
+                                      className="bg-black text-white px-4 py-2  rounded-lg inline-block"
                                       onClick={() => setIsMenuOpen(false)}>
                                     Get Started
                                 </Link>
