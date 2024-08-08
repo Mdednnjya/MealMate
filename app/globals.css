@@ -26,6 +26,10 @@ body {
   font-size: 20px;
 }
 
+.custom-hr {
+  border: none;
+  border-top: 1.5px solid #DADADA;
+}
 
 @layer utilities {
   .text-balance {

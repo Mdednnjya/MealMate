@@ -85,7 +85,7 @@ export default function DonationsList({ page, query, type }: {
 
     return (
         <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-14">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center mt-14">
                 {donations.map((donation: Donation) => (
                     <div key={donation.id} className="flex-shrink-0 mb-6 justify-center">
                         <DonationCard

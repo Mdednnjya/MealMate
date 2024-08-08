@@ -30,7 +30,7 @@ export default function Header() {
     };
 
     return (
-        <header className="flex justify-between items-center p-8 px-8 sm:px-12 md:px-20">
+        <header className="flex justify-between items-center p-8 px-6 sm:px-12 md:px-20">
             <div className="flex items-center">
                 <Link href="/" className="flex items-center">
                     <Image src="/logo-no-txt.svg" alt="MealMate Logo" width={49} height={50}/>
@@ -89,7 +89,7 @@ export default function Header() {
                     {isMenuOpen ? (
                         <XMarkIcon className="h-6 w-6"/>
                     ) : (
-                        <Bars3Icon className="h-6 w-6"/>
+                        <Bars3Icon className="h-8 w-8"/>
                     )}
                 </button>
             </div>

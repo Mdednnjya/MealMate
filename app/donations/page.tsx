@@ -13,13 +13,13 @@ export default function DonationsPage({ searchParams }: {
     const type = searchParams.type;
 
     return (
-        <main className="bg-white px-6 sm:px-12 md:px-20 lg:px-24">
-            <div className="flex justify-between items-center mb-4">
+        <main className=" px-6 sm:px-12 md:px-20 lg:scroll-px-32">
+            <div className="flex justify-between items-center mb-4 gap-1">
                 <Search placeholder="Search Donations..."/>
                 <Filter/>
                 <CreateDonations/>
             </div>
-            <Suspense fallback={<DonationsListSkeleton />}>
+            <Suspense fallback={<DonationsListSkeleton/>}>
                 <DonationsList page={page} query={query} type={type}/>
             </Suspense>
         </main>

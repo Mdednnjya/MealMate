@@ -4,12 +4,15 @@ import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import supabase from "@/utils/supabase";
 import { DonationDetailSkeleton } from '@/components/donations/skeletons';
+import {uberMoveText} from "@/components/fonts";
 
 export default function DonationPage({ params }: { params: { id: string } }) {
     return (
-        <Suspense fallback={<DonationDetailSkeleton />}>
-            <DonationDetails id={params.id} />
-        </Suspense>
+        <div className="flex-grow justify-center">
+            <Suspense fallback={<DonationDetailSkeleton />}>
+                <DonationDetails id={params.id} />
+            </Suspense>
+        </div>
     );
 }
 
@@ -45,8 +48,8 @@ async function DonationDetails({ id }: { id: string }) {
     };
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <div className="bg-white justify-center overflow-hidden">
+        <div className="container mx-auto px-4 py-8 flex justify-center">
+            <div className="p-2.5 overflow-hidden">
                 <div className="md:flex">
                     <div className="md:flex-shrink-0">
                         <Image
@@ -57,25 +60,21 @@ async function DonationDetails({ id }: { id: string }) {
                             className="h-full w-full rounded-xl object-cover md:w-96"
                         />
                     </div>
-                    <div className="p-8">
-                        <h1 className="text-4xl font-bold mb-4">{donation.title}</h1>
-                        <hr className="mb-4" />
+                    <div className="p-8 lg:pl-16">
+                        <h1 className={`text-4xl ${uberMoveText.className} font-bold mb-4`}>{donation.title}</h1>
+                        <hr className="mb-4 custom-hr" />
                         <div className="space-y-4">
                             <div className="flex items-center">
-                                <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                                 </svg>
                                 <span>{donation.profiles.name || 'Anonymous'}</span>
                             </div>
                             <div className="flex items-center">
                                 <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                      xmlns="http://www.w3.org/2000/svg">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                                 </svg>
                                 <span>{donation.location}</span>
                             </div>
@@ -87,15 +86,15 @@ async function DonationDetails({ id }: { id: string }) {
                                 </svg>
                                 <span>{donation.profiles.phone_number || 'Not available'}</span>
                             </div>
-                            <div>Type: {donation.type}</div>
-                            <div>Quantity: {donation.quantity} Pcs</div>
-                            <div>Expired: {new Date(donation.expiry_date).toLocaleDateString('en-US', {
+                            <div className={`${uberMoveText.className} font-bold`}>Type: {donation.type}</div>
+                            <div className={`${uberMoveText.className} font-bold`}>Quantity: {donation.quantity} Pcs</div>
+                            <div className={`${uberMoveText.className} font-bold`}>Best Before: {new Date(donation.expiry_date).toLocaleDateString('en-US', {
                                 year: 'numeric',
                                 month: 'long',
                                 day: 'numeric'
                             })}</div>
                         </div>
-                        <p className="mt-4 italic text-gray-600">Owner Notes: {donation.notes}</p>
+                        <p className="mt-4 italic text-gray-500">Owner Notes: {donation.notes}</p>
                         <div className="mt-8 flex space-x-4">
                             <button className="bg-black text-white px-4 py-2 rounded-lg">Send Request</button>
                             <Link href="/donations" className="border border-black text-black px-4 py-2 rounded-lg">More
