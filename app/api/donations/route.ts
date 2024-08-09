@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
         let dbQuery = supabase
             .from('donations')
             .select('*, profiles!inner(*)', { count: 'exact' })
-            .neq('profiles.id', user.id)  // Exclude the current user's donations
+            .neq('profiles.id', user.id)
             .eq('profiles.country', userProfile.country)
             .eq('profiles.state', userProfile.state)
             .eq('profiles.city', userProfile.city)
