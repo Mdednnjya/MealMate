@@ -1,5 +1,5 @@
 export const formatImageUrl = (url: string) => {
-    if (!url) return '/images/donations/default.jpg';
+    if (!url) return '/images/your-donations/default.jpg';
     if (url.startsWith('http://') || url.startsWith('https://')) {
         return url;
     } else if (url.startsWith('/')) {

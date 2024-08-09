@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
             .select('*, profiles!inner(*)', { count: 'exact' })
             .range((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE - 1);
 
-        // Exclude user's own donations if logged in
+        // Exclude user's own your-donations if logged in
         if (userId) {
             dbQuery = dbQuery.neq('user_id', userId);
         }
@@ -64,7 +64,7 @@ export async function GET(request: NextRequest) {
 
         return NextResponse.json({ donations: data, total: count });
     } catch (error) {
-        console.error('Error in GET /api/donations:', error);
+        console.error('Error in GET /api/your-donations:', error);
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 }

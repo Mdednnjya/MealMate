@@ -38,6 +38,7 @@ export default function RequestButton({ donation }: RequestButtonProps) {
                     donation_id: donation.id,
                     user_id: user.id,
                     status: 'PENDING',
+                    quantity: quantity,
                 })
                 .select()
                 .single();

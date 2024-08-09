@@ -1,4 +1,4 @@
-// lib/donations.ts
+// lib/your-donations.ts
 import supabase from '@/utils/supabase';
 
 export async function getDonation(id: string) {

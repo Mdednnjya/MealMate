@@ -44,11 +44,11 @@ export default function DonationsList({ page, query, type }: {
                     setDonations(data.donations);
                     setTotal(data.total);
                 } else {
-                    throw new Error(data.error || 'Failed to fetch donations');
+                    throw new Error(data.error || 'Failed to fetch your-donations');
                 }
             } catch (err) {
-                console.error('Error fetching donations:', err);
-                setError('Failed to fetch donations. Please try again later.');
+                console.error('Error fetching your-donations:', err);
+                setError('Failed to fetch your-donations. Please try again later.');
             } finally {
                 setIsLoading(false);
             }
@@ -90,7 +90,7 @@ export default function DonationsList({ page, query, type }: {
                     <div key={donation.id} className="flex-shrink-0 mb-6 justify-center">
                         <DonationCard
                             id={donation.id}
-                            image={donation.image || "/images/donations/default.jpg"}
+                            image={donation.image || "/images/your-donations/default.jpg"}
                             title={donation.title}
                             location={donation.location}
                             date={new Date(donation.expiry_date).toLocaleDateString()}

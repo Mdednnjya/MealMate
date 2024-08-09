@@ -59,3 +59,36 @@ export function DonationDetailSkeleton() {
         </div>
     );
 }
+
+export function RequestDonationDetailSkeleton() {
+    return (
+        <div className="container mx-auto px-4 py-8 max-w-4xl">
+            <div className="bg-white rounded-lg shadow-lg px-6 py-4 sm:p-10 mb-6">
+                <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4 mb-4">
+                    <div className={`rounded-full w-16 h-16 bg-gray-200 ${shimmer} hidden sm:block`} />
+                    <div className="text-center sm:text-left">
+                        <div className={`h-6 w-32 bg-gray-200 rounded mb-2 ${shimmer}`} />
+                        <div className={`h-4 w-24 bg-gray-200 rounded mb-2 ${shimmer}`} />
+                        <div className={`h-4 w-28 bg-gray-200 rounded ${shimmer}`} />
+                    </div>
+                </div>
+                <h3 className={`font-bold mb-4 h-6 w-40 bg-gray-200 rounded ${shimmer}`} />
+                <div className="border border-gray-200 rounded-lg p-4">
+                    <div className="flex flex-col sm:flex-row items-start">
+                        <div className={`rounded-lg mr-4 w-32 h-32 bg-gray-200 ${shimmer} mb-4 sm:mb-0`} />
+                        <div>
+                            <div className={`h-6 w-48 bg-gray-200 rounded mb-2 ${shimmer}`} />
+                            <div className={`h-4 w-32 bg-gray-200 rounded mb-2 ${shimmer}`} />
+                            <div className={`h-4 w-40 bg-gray-200 rounded mb-2 ${shimmer}`} />
+                            <div className={`h-4 w-56 bg-gray-200 rounded ${shimmer}`} />
+                        </div>
+                    </div>
+                </div>
+                <div className="mt-6 flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-2">
+                    <div className={`h-10 w-full sm:w-32 bg-gray-200 rounded ${shimmer}`} />
+                    <div className={`h-10 w-full sm:w-32 bg-gray-200 rounded ${shimmer}`} />
+                </div>
+            </div>
+        </div>
+    );
+}
