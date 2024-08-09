@@ -1,8 +1,9 @@
-"use client"
+'use client'
+
 import { useState } from 'react';
 import RequestPopup from './request-popup';
 import SuccessPopup from "@/components/donations/popup/sucess-popup";
-import supabase from "@/utils/supabase";
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 interface RequestButtonProps {
     donation: any;
@@ -12,6 +13,7 @@ export default function RequestButton({ donation }: RequestButtonProps) {
     const [showRequestPopup, setShowRequestPopup] = useState(false);
     const [showSuccessPopup, setShowSuccessPopup] = useState(false);
     const [quantity, setQuantity] = useState(1);
+    const supabase = createClientComponentClient();
 
     const handleQuantityChange = (action: 'increment' | 'decrement') => {
         if (action === 'increment' && quantity < donation.quantity) {
@@ -30,12 +32,14 @@ export default function RequestButton({ donation }: RequestButtonProps) {
                 return;
             }
 
-            const { error } = await supabase.from('requests').insert({
-                donation_id: donation.id,
-                user_id: user.id,
-                quantity,
-                status: 'PENDING',
-            });
+            const { error } = await supabase
+                .from('requests')
+                .insert({
+                    donation_id: donation.id,
+                    user_id: user.id,
+                    quantity,
+                    status: 'PENDING',
+                });
 
             if (error) {
                 console.error('Error sending request:', error.message);

@@ -9,7 +9,7 @@ import { uberMoveText } from '@/components/fonts';
 import { Suspense } from "react";
 import { formatImageUrl } from "@/utils/format-image-url";
 
-// const RequestButtonWrapper = dynamic(() => import('@/components/donations/popup/request-button-wrapper'), { ssr: false });
+const RequestButtonWrapper = dynamic(() => import('@/components/donations/popup/request-button-wrapper'), { ssr: false });
 
 export default async function DonationPage({ params }: { params: { id: string } }) {
     const supabase = createServerComponentClient({ cookies });
@@ -137,7 +137,7 @@ function DonationDetails({ donation, isLoggedIn }: { donation: any; isLoggedIn: 
                         </div>
                         <p className="mt-4 italic text-gray-500">Owner Notes: {donation.notes}</p>
                         <div className="mt-8 flex space-x-4">
-                            {/*<RequestButtonWrapper donation={donation} isLoggedIn={isLoggedIn}/>*/}
+                            <RequestButtonWrapper donation={donation} isLoggedIn={isLoggedIn}/>
                             <Link href="/donations" className="border border-black text-black px-4 py-2 rounded-lg">
                                 More Donations
                             </Link>

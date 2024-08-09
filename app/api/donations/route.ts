@@ -11,30 +11,42 @@ export async function GET(request: NextRequest) {
     const ITEMS_PER_PAGE = 6;
 
     try {
-        const { data: { user }, error: authError } = await supabase.auth.getUser();
+        let userLocation = { country: null, state: null, city: null };
+        let userId = null;
 
-        if (authError || !user) {
-            return NextResponse.json({ error: 'Authentication failed' }, { status: 401 });
-        }
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+            userId = user.id;
+            const { data: userProfile, error: profileError } = await supabase
+                .from('profiles')
+                .select('country, state, city')
+                .eq('id', user.id)
+                .single();
 
-        const { data: userProfile, error: profileError } = await supabase
-            .from('profiles')
-            .select('country, state, city')
-            .eq('id', user.id)
-            .single();
-
-        if (profileError) {
-            return NextResponse.json({ error: 'Failed to fetch user profile' }, { status: 500 });
+            if (profileError) {
+                console.error('Failed to fetch user profile:', profileError);
+            } else {
+                userLocation = userProfile;
+            }
         }
 
         let dbQuery = supabase
             .from('donations')
             .select('*, profiles!inner(*)', { count: 'exact' })
-            .neq('profiles.id', user.id)
-            .eq('profiles.country', userProfile.country)
-            .eq('profiles.state', userProfile.state)
-            .eq('profiles.city', userProfile.city)
             .range((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE - 1);
+
+        // Exclude user's own donations if logged in
+        if (userId) {
+            dbQuery = dbQuery.neq('user_id', userId);
+        }
+
+        // Apply location filter only if user is logged in and has location data
+        if (user && userLocation.country && userLocation.state && userLocation.city) {
+            dbQuery = dbQuery
+                .eq('profiles.country', userLocation.country)
+                .eq('profiles.state', userLocation.state)
+                .eq('profiles.city', userLocation.city);
+        }
 
         if (type) {
             dbQuery = dbQuery.eq('type', type);
@@ -52,6 +64,7 @@ export async function GET(request: NextRequest) {
 
         return NextResponse.json({ donations: data, total: count });
     } catch (error) {
+        console.error('Error in GET /api/donations:', error);
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 }

@@ -20,7 +20,6 @@ const RequestPopup: React.FC<RequestPopupProps> = ({
     return (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-75 z-50">
             <div className="relative bg-white rounded-lg shadow-lg w-full max-w-md p-6">
-                {/* Button Cancel */}
                 <button
                     className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
                     onClick={onClose}
@@ -52,7 +51,6 @@ const RequestPopup: React.FC<RequestPopupProps> = ({
                         <FaPlus />
                     </button>
                 </div>
-                {/* Button Commit Request */}
                 <div className="flex justify-center col-span-12">
                     <button
                         className="bg-black text-white px-4 py-2 rounded-lg w-full"
