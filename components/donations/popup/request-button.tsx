@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import RequestPopup from './request-popup';
 import SuccessPopup from "@/components/donations/popup/sucess-popup";
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 interface RequestButtonProps {
     donation: any;
@@ -25,29 +25,33 @@ export default function RequestButton({ donation }: RequestButtonProps) {
 
     const handleSendRequest = async () => {
         try {
-            const { data: { user } } = await supabase.auth.getUser();
+            const { data: { user }, error: userError } = await supabase.auth.getUser();
 
-            if (!user) {
+            if (userError || !user) {
                 console.error('User not authenticated');
                 return;
             }
 
-            const { error } = await supabase
+            const { data, error } = await supabase
                 .from('requests')
                 .insert({
                     donation_id: donation.id,
                     user_id: user.id,
-                    quantity,
                     status: 'PENDING',
-                });
+                })
+                .select()
+                .single();
 
             if (error) {
                 console.error('Error sending request:', error.message);
                 return;
             }
 
-            setShowRequestPopup(false);
-            setShowSuccessPopup(true);
+            if (data) {
+                console.log('Request sent successfully:', data);
+                setShowRequestPopup(false);
+                setShowSuccessPopup(true);
+            }
         } catch (error) {
             console.error('Error sending request:', error);
         }

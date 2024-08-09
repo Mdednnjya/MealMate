@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { FaMinus, FaPlus, FaTimes } from 'react-icons/fa';
 import { formatImageUrl } from "@/utils/format-image-url";
+import SuccessPopup from "@/components/donations/popup/sucess-popup";
 
 interface RequestPopupProps {
     donation: any;
