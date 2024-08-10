@@ -1,7 +1,6 @@
-// components/profile/ProfileContent.tsx
 import Image from 'next/image';
 import { Country, State } from 'country-state-city';
-import EditProfileButton from "@/components/profile/edit-profile-button";
+import EditButton from "@/components/profile/edit-button";
 import LogoutButton from "@/components/profile/logout-button";
 
 interface ProfileContentProps {
@@ -46,7 +45,7 @@ export default function ProfileContent({ user, profile }: ProfileContentProps) {
                         : 'Not set'}
                 />
                 <ProfileField label="City" value={profile.city || 'Not set'} />
-                <EditProfileButton userId={user.id} />
+                <EditButton userId={user.id} />
                 <LogoutButton />
             </div>
         </div>

@@ -1,31 +1,28 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { AuthProvider } from "@/contexts/auth-context";
-
-
-const inter = Inter({ subsets: ["latin"] });
+import { poppins } from "@/components/fonts";
 
 export const metadata: Metadata = {
-  title: "MealMate",
+    title: "MealMate",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
+export default function RootLayout({ children, }: Readonly<{
+    children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
+    return (
+        <html lang="en">
         <AuthProvider>
-            <body className={`bg-white ${inter.className} justify-center`}>
-                <Header/>
-                    <main>{children}</main>
-                <Footer/>
+            <body className={`bg-white ${poppins.className} flex flex-col min-h-screen`}>
+            <Header />
+            <main className="flex-grow">
+                {children}
+            </main>
+            <Footer />
             </body>
         </AuthProvider>
-    </html>
-  );
+        </html>
+    );
 }

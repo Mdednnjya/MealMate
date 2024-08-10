@@ -1,6 +1,7 @@
 import Hero from "@/components/hero";
 import HowItWorks from "@/components/how-its-work";
-import DonationCarousel from "@/components/donation-carousel";
+import DonationCarousel from "@/components/donations/donation-carousel";
+
 
 export default function Home() {
     return (

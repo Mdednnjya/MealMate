@@ -4,13 +4,13 @@ import { useState, useEffect } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { PencilIcon } from '@heroicons/react/24/solid';
 import { AnimatePresence } from 'framer-motion';
-import EditProfileForm from "@/components/profile/edit-profile-form";
+import EditForm from "@/components/profile/edit-form";
 
 interface EditProfileButtonProps {
     userId: string;
 }
 
-export default function EditProfileButton({ userId }: EditProfileButtonProps) {
+export default function EditButton({ userId }: EditProfileButtonProps) {
     const [isEditing, setIsEditing] = useState(false);
     const [user, setUser] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -74,7 +74,7 @@ export default function EditProfileButton({ userId }: EditProfileButtonProps) {
             </button>
             <AnimatePresence>
                 {isEditing && user && (
-                    <EditProfileForm user={user} onSave={handleSave} onClose={handleClose} />
+                    <EditForm user={user} onSave={handleSave} onClose={handleClose} />
                 )}
             </AnimatePresence>
         </>

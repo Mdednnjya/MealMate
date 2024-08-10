@@ -1,4 +1,3 @@
-// app/profile/page.tsx
 import { getProfileData } from "@/utils/api/profile/get-profile";
 import ProfileContent from "@/components/profile/profile-content";
 

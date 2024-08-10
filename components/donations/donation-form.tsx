@@ -1,111 +1,181 @@
 'use client';
 
-import Link from 'next/link';
-import {
-    CheckIcon,
-    ClockIcon,
-    CurrencyDollarIcon,
-    UserCircleIcon,
-} from '@heroicons/react/24/outline';
-import { useActionState } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
+import { uberMoveText } from "@/components/fonts";
+import { useAuth } from '@/contexts/auth-context';
 
-export default function Form() {
+interface FormData {
+    title: string;
+    notes: string;
+    location: string;
+    quantity: string;
+    expiry_date: string;
+    type: 'FOOD' | 'DRINK' | 'MEAL_PACKAGE';
+    image: File | null;
+}
+
+export default function DonationForm() {
+    const router = useRouter();
+    const { user } = useAuth();
+    const [formData, setFormData] = useState<FormData>({
+        title: '',
+        notes: '',
+        location: '',
+        quantity: '',
+        expiry_date: '',
+        type: 'FOOD',
+        image: null
+    });
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { name, value, files } = e.target as HTMLInputElement;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: files ? files[0] : value
+        }));
+    };
+
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formDataToSend = new FormData();
+        Object.entries(formData).forEach(([key, value]) => {
+            if (value !== null) {
+                formDataToSend.append(key, value);
+            }
+        });
+
+        try {
+            if (!user) {
+                throw new Error('No active session found');
+            }
+
+            console.log('Sending donation request...');
+            const response = await fetch('/api/donations/add-donation', {
+                method: 'POST',
+                body: formDataToSend
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            console.log('Donation uploaded successfully:', result);
+            router.push('/donations');
+        } catch (error) {
+            if (error instanceof Error) {
+                console.error('Error uploading donation:', error.message);
+            } else {
+                console.error('An unknown error occurred');
+            }
+        }
+    };
+
     return (
-        <form >
-            <div className="rounded-md bg-gray-50 p-4 md:p-6">
-                <div className="mb-4">
-                    <label htmlFor="customer" className="mb-2 block text-sm font-medium">
-                        Choose customer
-                    </label>
-                    <div className="relative">
-                        <select
-                            id="customer"
-                            name="customerId"
-                            className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                            defaultValue=""
-                            aria-describedby="customer-error"
-                        >
-
-                        </select>
-                        <UserCircleIcon
-                            className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500"/>
-                    </div>
-                    <div id="customer-error" aria-live="polite" aria-atomic="true">
-
-                    </div>
+        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                    <label htmlFor="title"
+                           className={`block ${uberMoveText.className} text-md font-bold text-black`}>Title</label>
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        value={formData.title}
+                        onChange={handleChange}
+                        required
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    />
                 </div>
-
-                {/* Invoice Amount */}
-                <div className="mb-4">
-                    <label htmlFor="amount" className="mb-2 block text-sm font-medium">
-                        Choose an amount
-                    </label>
-                    <div className="relative mt-2 rounded-md">
-                        <div className="relative">
-                            <input
-                                id="amount"
-                                name="amount"
-                                type="number"
-                                step="0.01"
-                                placeholder="Enter USD amount"
-                                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                                required
-                            />
-                            <CurrencyDollarIcon
-                                className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900"/>
-                        </div>
-                    </div>
+                <div>
+                    <label htmlFor="location"
+                           className={`block ${uberMoveText.className} text-md font-bold text-black`}>Spesific
+                        Location</label>
+                    <input
+                        type="text"
+                        id="location"
+                        name="location"
+                        value={formData.location}
+                        onChange={handleChange}
+                        required
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    />
                 </div>
-
-                <fieldset>
-                    <legend className="mb-2 block text-sm font-medium">
-                        Set the invoice status
-                    </legend>
-                    <div className="rounded-md border border-gray-200 bg-white px-[14px] py-3">
-                        <div className="flex gap-4">
-                            <div className="flex items-center">
-                                <input
-                                    id="pending"
-                                    name="status"
-                                    type="radio"
-                                    value="pending"
-                                    className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-                                />
-                                <label
-                                    htmlFor="pending"
-                                    className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-600"
-                                >
-                                    Pending <ClockIcon className="h-4 w-4"/>
-                                </label>
-                            </div>
-                            <div className="flex items-center">
-                                <input
-                                    id="paid"
-                                    name="status"
-                                    type="radio"
-                                    value="paid"
-                                    className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-                                />
-                                <label
-                                    htmlFor="paid"
-                                    className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-green-500 px-3 py-1.5 text-xs font-medium text-white"
-                                >
-                                    Paid <CheckIcon className="h-4 w-4"/>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </fieldset>
-            </div>
-            <div className="mt-6 flex justify-end gap-4">
-                <Link
-                    href="/dashboard/invoices"
-                    className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
+                <div>
+                    <label htmlFor="quantity"
+                           className={`block ${uberMoveText.className} text-md font-bold text-black`}>Quantity</label>
+                    <input
+                        type="number"
+                        id="quantity"
+                        name="quantity"
+                        value={formData.quantity}
+                        onChange={handleChange}
+                        required
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    />
+                </div>
+                <div>
+                    <label htmlFor="notes" className={`block ${uberMoveText.className} text-md font-bold text-black`}>Extra
+                        Notes</label>
+                    <textarea
+                        id="notes"
+                        name="notes"
+                        value={formData.notes}
+                        onChange={handleChange}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    />
+                </div>
+                <div>
+                    <label htmlFor="expiry_date"
+                           className={`block ${uberMoveText.className} text-md font-bold text-black`}>Best
+                        Before</label>
+                    <input
+                        type="datetime-local"
+                        id="expiry_date"
+                        name="expiry_date"
+                        value={formData.expiry_date}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div>
+                    <label htmlFor="type"
+                           className={`block ${uberMoveText.className} text-md font-bold text-black`}>Type</label>
+                    <select
+                        id="type"
+                        name="type"
+                        value={formData.type}
+                        onChange={handleChange}
+                        required
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    >
+                        <option value="FOOD">Food</option>
+                        <option value="DRINK">Drink</option>
+                        <option value="MEAL_PACKAGE">Meal Package</option>
+                    </select>
+                </div>
+                <div>
+                    <label htmlFor="image"
+                           className={`block ${uberMoveText.className} text-md font-bold text-black`}>Image</label>
+                    <input
+                        type="file"
+                        id="image"
+                        name="image"
+                        onChange={handleChange}
+                        accept="image/*"
+                        required
+                        className="mt-1 block w-full"
+                    />
+                </div>
+                <button
+                    type="submit"
+                    className="flex h-10 items-center rounded-lg bg-black px-4 text-sm font-medium text-white transition-colors hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                 >
-                    Cancel
-                </Link>
-                submit
-            </div>
-        </form>
+                    Create Donation
+                </button>
+            </form>
+        </div>
     );
 }

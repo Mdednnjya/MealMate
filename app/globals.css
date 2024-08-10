@@ -18,6 +18,19 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+.logo-text {
+  font-size: 28px;
+}
+
+.navbar-text {
+  font-size: 20px;
+}
+
+.custom-hr {
+  border: none;
+  border-top: 1.5px solid #DADADA;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

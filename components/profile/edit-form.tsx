@@ -1,5 +1,3 @@
-// components/profile/edit-profile-form.tsx
-
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { PencilIcon, XMarkIcon } from '@heroicons/react/24/solid';
@@ -12,7 +10,7 @@ interface ProfileFormProps {
     onClose: () => void;
 }
 
-export default function EditProfileForm({ user, onSave, onClose }: ProfileFormProps) {
+export default function EditForm({ user, onSave, onClose }: ProfileFormProps) {
     const [countries, setCountries] = useState<any[]>([]);
     const [states, setStates] = useState<any[]>([]);
     const [cities, setCities] = useState<any[]>([]);
