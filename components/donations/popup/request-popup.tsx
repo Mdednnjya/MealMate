@@ -11,13 +11,7 @@ interface RequestPopupProps {
     onClose: () => void;
 }
 
-const RequestPopup: React.FC<RequestPopupProps> = ({
-                                                       donation,
-                                                       quantity,
-                                                       handleQuantityChange,
-                                                       handleSendRequest,
-                                                       onClose,
-                                                   }) => {
+const RequestPopup: React.FC<RequestPopupProps> = ({ donation, quantity, handleQuantityChange, handleSendRequest, onClose,}) => {
     return (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-75 z-50">
             <div className="relative bg-white rounded-lg shadow-lg w-full max-w-md p-6">

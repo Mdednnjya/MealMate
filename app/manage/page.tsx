@@ -27,7 +27,6 @@ interface Request {
 }
 
 export default function ManagePage() {
-    // Set the default active tab to 'requests'
     const [activeTab, setActiveTab] = useState<'donations' | 'requests'>('requests');
     const [donations, setDonations] = useState<Donation[]>([]);
     const [requests, setRequests] = useState<Request[]>([]);
@@ -97,7 +96,6 @@ export default function ManagePage() {
     return (
         <div className="container mx-auto px-4 py-8">
             <div className="flex mb-6 justify-center">
-                {/* Change the order of buttons, with "Manage your Requests" first */}
                 <button
                     className={`mr-4 ${activeTab === 'requests' ? 'font-bold' : ''}`}
                     onClick={() => setActiveTab('requests')}
@@ -132,7 +130,9 @@ export default function ManagePage() {
                                         </div>
                                     </div>
                                 </div>
-                                <button className="bg-black text-white px-4 py-2 rounded-lg">Details</button>
+                                <Link href={`/manage/your-requests/${request.id}`}>
+                                    <button className="bg-black text-white px-4 py-2 rounded-lg">Details</button>
+                                </Link>
                             </div>
                         ))}
                     </>
@@ -164,7 +164,7 @@ export default function ManagePage() {
                                     </div>
                                 </div>
                                 <Link href={`/manage/your-donations/${donation.id}`}>
-                                    <button className="bg-black text-white px-4 py-2 rounded-lg">See Details</button>
+                                    <button className="bg-black text-white px-4 py-2 rounded-lg">Details</button>
                                 </Link>
                             </div>
                         ))}

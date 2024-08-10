@@ -8,6 +8,7 @@ import { DonationDetailSkeleton } from '@/components/donations/skeletons';
 import { uberMoveText } from '@/components/fonts';
 import { Suspense } from "react";
 import { formatImageUrl } from "@/utils/format-image-url";
+import Breadcrumbs from "@/components/breadcrumbs";
 
 const RequestButtonWrapper = dynamic(() => import('@/components/donations/popup/request-button-wrapper'), { ssr: false });
 

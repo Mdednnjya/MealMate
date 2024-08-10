@@ -35,12 +35,10 @@ export async function GET(request: NextRequest) {
             .select('*, profiles!inner(*)', { count: 'exact' })
             .range((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE - 1);
 
-        // Exclude user's own your-donations if logged in
         if (userId) {
             dbQuery = dbQuery.neq('user_id', userId);
         }
 
-        // Apply location filter only if user is logged in and has location data
         if (user && userLocation.country && userLocation.state && userLocation.city) {
             dbQuery = dbQuery
                 .eq('profiles.country', userLocation.country)
