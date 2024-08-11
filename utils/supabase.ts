@@ -1,5 +1,4 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import {DonationStatus} from "@/type/your-donations";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -12,7 +11,7 @@ const supabase: SupabaseClient = createClient(supabaseUrl, supabaseAnonKey, {
     },
 });
 
-export const updateDonationStatus = async (donationId: string, newStatus: DonationStatus) => {
+export const updateDonationStatus = async (donationId: string, newStatus: any) => {
     const { error } = await supabase
         .from('donations')
         .update({ status: newStatus })
@@ -24,4 +23,3 @@ export const updateDonationStatus = async (donationId: string, newStatus: Donati
 };
 
 export default supabase;
-
