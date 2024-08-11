@@ -43,6 +43,19 @@ export default function RequestButton({ donation }: RequestButtonProps) {
                 .select()
                 .single();
 
+            const { error: notificationError } = await supabase
+                .from('notifications')
+                .insert({
+                    user_id: donation.user_id,
+                    sender_id: user.id,
+                    donation_id: donation.id,
+                    type: 'REQUEST_RECEIVED',
+                });
+
+            if (notificationError) {
+                console.error('Error creating notification:', notificationError);
+            }
+
             if (error) {
                 console.error('Error sending request:', error.message);
                 return;
