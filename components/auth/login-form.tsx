@@ -70,13 +70,13 @@ export default function LoginForm() {
                     required
                 />
             </div>
-            <button
-                type="button"
-                // onClick={handleGoogleSignIn}
-                className="w-full bg-white text-black font-bold py-2 px-4 rounded-xl border border-black mb-4 flex items-center justify-center"
-            >
-                <FcGoogle className="mr-2" size={20} /> Sign in with Google
-            </button>
+            {/*<button*/}
+            {/*    type="button"*/}
+            {/*    // onClick={handleGoogleSignIn}*/}
+            {/*    className="w-full bg-white text-black font-bold py-2 px-4 rounded-xl border border-black mb-4 flex items-center justify-center"*/}
+            {/*>*/}
+            {/*    <FcGoogle className="mr-2" size={20} /> Sign in with Google*/}
+            {/*</button>*/}
             <button
                 type="submit"
                 className="w-full bg-black text-white font-bold py-2 px-4 rounded-xl"

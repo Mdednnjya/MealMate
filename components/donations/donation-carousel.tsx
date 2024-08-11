@@ -5,21 +5,24 @@ import {uberMoveText} from "@/components/fonts";
 export default function DonationCarousel() {
     const donations = [
         {
-            image: "/images/your-donations/burger.jpg",
+            id: "1",
+            image: "/images/donations/burger.jpg",
             title: "Burger Bangor",
             location: "Austin",
             date: "July 25, 2024",
             notes: "Variety of turkey and ham sandwiches"
         },
         {
-            image: "/images/your-donations/veggies.jpg",
+            id: "2",
+            image: "/images/donations/veggies.jpg",
             title: "Farm-Fresh Veggie",
             location: "Austin",
             date: "July 25, 2024",
             notes: "Assorted fresh vegetables from local farm"
         },
         {
-            image: "/images/your-donations/sandwich.jpg",
+            id: "3",
+            image: "/images/donations/sandwich.jpg",
             title: "Deli Sandwich Surplus",
             location: "Riverside District",
             date: "July 29, 2024",
