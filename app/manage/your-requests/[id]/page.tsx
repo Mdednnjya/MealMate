@@ -7,7 +7,6 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { formatImageUrl } from '@/utils/format-image-url';
 import { DonationDetailSkeleton } from '@/components/donations/skeletons';
 import CancelPopup from '@/components/donations/popup/cancel-popup';
-import AuthGuard from "@/components/auth/auth-guard";
 
 interface Request {
     id: string;
